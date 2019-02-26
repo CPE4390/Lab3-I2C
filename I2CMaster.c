@@ -38,7 +38,7 @@ void main(void) {
 }
 
 unsigned char ReadWhoAmI(void) {
-    signed char rx;
+    unsigned char rx;
 
     //First write register address
     SSP2CON2bits.SEN = 1; //Start condition
