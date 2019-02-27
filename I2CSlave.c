@@ -29,7 +29,6 @@ int bufferedPressure;
 int state = 0;
 
 void main(void) {
-    long i;
     OSCTUNEbits.PLLEN = 1;
     LCDInit();
     LCDClear();
@@ -49,10 +48,9 @@ void main(void) {
         } else if (temperature < 0) {
             temperature = 0;
         }
-        INTCONbits.GIE = 0;
         pressure = ReadPot();
         INTCONbits.GIE = 1;
-        lprintf(1, "T:%d P:%d", temperature, pressure);
+        lprintf(1, "T:%d P:%u", temperature, pressure);
         LATDbits.LATD0 ^= 1;
         for (int i = 0; i < sampleRate; ++i) {
             __delay_ms(100);
@@ -62,13 +60,6 @@ void main(void) {
 
 void InitPins(void) {
     LATD = 0; //LED's are outputs
-    TRISD = 0; //Turn off all LED's
-
-
-    //Set TRIS bits for any required peripherals here.
-    TRISB = 0b00000001; //Button0 is input;
-    INTCON2bits.RBPU = 0; //enable weak pullups on port B
-
     TRISD = 0b01100000; //MMSP2 uses RD5 as SDA, RD6 as SCL, both set as inputs
 
     //Set up for ADC
@@ -146,12 +137,16 @@ void __interrupt(high_priority) HighIsr(void) {
 }
 
 unsigned int ReadPot(void) {
+    unsigned int value;
     ADCON0bits.CHS = 0; //channel 0
     ADCON0bits.ADON = 1;
     ADCON0bits.GO = 1;
     while (ADCON0bits.GO == 1);
     ADCON0bits.ADON = 0;
-    return ADRES;
+    INTCONbits.GIE = 0;
+    value = ADRES;
+    INTCONbits.GIE = 1;
+    return value;
 }
 
 
