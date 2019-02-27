@@ -11,6 +11,7 @@ Connections:
         Master RD5 <-> Slave RD5
         Master RD6 <-> Slave RD6
         2.2K pullups on both
+        Dont forget GND <-> GND
         See Register Map for address and register details 
  */
 
