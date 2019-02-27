@@ -1,10 +1,9 @@
 # Lab4-I2C
 I2C interface between two uControllers  
-The slave device simulates a simple sensor with  
-three registers.  
+The slave device simulates a simple sensor with multiple registers.  See I2CSlave Register Map for details    
 
 Requires:  
-* Explorer 18 Board
+* 2 x Explorer 18 Board
 * Pickit 3
-* PIC18F87J11 Plugin module (PIM)
-* jumpers  
+* 2 x PIC18F87J11 Plugin module (PIM)
+* assorted jumpers  
